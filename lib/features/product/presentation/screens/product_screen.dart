@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:product_showcase/constants/style.dart';
 import 'package:product_showcase/features/product/presentation/bloc/product_category/product_category_cubit.dart';
+import 'package:product_showcase/services/utility/utility.dart';
 
 import '../../../../widgets/custom_filter_chip.dart';
+import '../../../authenthication/presentation/bloc/language/language_cubit.dart';
 import '../../model/product/product_model.dart';
+import 'drawer_widget.dart';
 
 class ProductScreen extends StatefulWidget {
   const ProductScreen({super.key});
@@ -19,6 +22,7 @@ class _ProductScreenState extends State<ProductScreen> {
   ProductCategoryModel? selectedModel;
   @override
   void initState() {
+    BlocProvider.of<LanguageCubit>(context).initializedLanguage();
     BlocProvider.of<ProductCategoryCubit>(context).getProductCategory();
     super.initState();
   }
@@ -34,17 +38,13 @@ class _ProductScreenState extends State<ProductScreen> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          'Product Showcase',
+          Utility.getText(context, 'product_showcase'),
           style: KStyle.tTitleLTextStyle.copyWith(
             color: KStyle.cAccent,
           ),
         ),
       ),
-      drawer: Drawer(
-        child: Column(
-          children: [],
-        ),
-      ),
+      drawer: const DrawerWidget(),
       body: BlocBuilder<ProductCategoryCubit, ProductCategoryState>(
         builder: (BuildContext context, state) {
           if (state is ProductCategoryLoading) {
