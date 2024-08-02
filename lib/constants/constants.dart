@@ -1,3 +1,3 @@
 class MyConstant {
-  static String url = 'https://dummyjson.com/';
+  static String url = 'https://dummyjson.com';
 }
